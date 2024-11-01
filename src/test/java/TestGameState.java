@@ -1,6 +1,12 @@
 import org.junit.Before;
 import org.junit.Test;
 import textadv.GameState;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Scanner;
+
+
 import static org.junit.Assert.*;
 
 public class TestGameState {
@@ -11,21 +17,22 @@ public class TestGameState {
 
     @Test
     public void testGridSize(){
-        GameState gs = new GameState(5);
+        GameState gs = new GameState(5, false);
         assertEquals(gs.gridSize, 5);
     }
 
-    public void testWinMessage(){
-        GameState gs = new GameState(5);
+    @Test
+    public void testWinMessage() throws InterruptedException {
+        GameState gs = new GameState(5, true);
         gs.playerX = 0;
         gs.playerY = 0;
-        gs.treasureX = 0;
-        gs.treasureY = 0;
-        String actualOutput = gs.play().getPrintedOutput(); // Call the wrapper method
+        gs.treasureX = 1;
+        gs.treasureY = 1;
+        gs.play();
 
-        // Assert
-        String expectedOutput = "Expected output here";
-        assertEquals(expectedOutput, actualOutput);
+        System.setIn(new ByteArrayInputStream("d\nl\n".getBytes()));
+
+        assertEquals(gs.gameWon, true);
     }
 
 }

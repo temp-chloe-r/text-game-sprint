@@ -17,7 +17,7 @@ public class Main {
             gridSize = sc.nextInt();
             if (gridSize < 5) System.out.println("Grid size too small. Please enter a grid size of at least 5!");
         }
-        GameState game = new GameState(gridSize);
+        GameState game = new GameState(gridSize, false);
         game.play(); // Start the game loop
     }
 }

@@ -13,10 +13,14 @@ public class GameState {
     private final ArrayList<Monster> monsters = new ArrayList<>();
     private final Random random = new Random();
     private final Scanner scanner = new Scanner(System.in);
+    private boolean testMode = false;
+    public boolean gameWon = false;
 
     // GameState Constructor
-    public GameState(int gridSize) {
+    public GameState(int gridSize, boolean testMode) {
         this.gridSize = gridSize;
+        if (gridSize < 5) gridSize = 5;
+        this.testMode = testMode;
         initializeGame();
     }
 
@@ -32,7 +36,7 @@ public class GameState {
         } while (treasureX == playerX && treasureY == playerY);
 
         // Add monsters at random locations
-        addMonsters();
+        if (!testMode) addMonsters();
 
         // Print game welcome text to terminal
         System.out.println("Welcome to the Treasure Hunt Game!");
@@ -69,30 +73,46 @@ public class GameState {
         while (true) {
             // Display game information to player
             printDistanceToTreasure();
-            System.out.print("Enter move (up, down, left, right): ");
+            System.out.println("Enter move (up, down, left, right): ");
+            if (!scanner.hasNextLine()) {
+                continue; // Skip if no input
+            }
             String move = scanner.nextLine().toLowerCase();
             // "Move" the player based on their input (can also accept traditional text adventure n/s/e/w)
             switch (move) {
                 case "up": case "u": case "n": {
-                    if (playerY > 0) playerY--;
+                    if (playerY > 0) {
+                        playerY--;
+                        System.out.println("Moving up...");
+                    } else System.out.println("Can't move up...");
                     break;
                 }
                 case "down": case "d": case "s": {
-                    if (playerY < gridSize - 1) playerY++;
+                    if (playerY < gridSize - 1) {
+                        playerY++;
+                        System.out.println("Moving down...");
+                    } else System.out.println("Can't move down...");
                     break;
                 }
                 case "left": case "l": case "w": {
-                    if (playerX > 0) playerX--;
+                    if (playerX > 0) {
+                        playerX--;
+                        System.out.println("Moving left...");
+                    } else System.out.println("Can't move left...");
                     break;
                 }
                 case "right": case "r": case "e": {
-                    if (playerX < gridSize - 1) playerX++;
+                    if (playerX < gridSize - 1) {
+                        playerX++;
+                        System.out.println("Moving right...");
+                    } else System.out.println("Can't move right...");
                     break;
                 }
                 default: System.out.println("Invalid move. Try again."); continue;
             }
             // Check for win state (Treasure is encountered)
             if (playerX == treasureX && playerY == treasureY) {
+                gameWon = true;
                 System.out.println("Congratulations! You've safely found the treasure and won the game!");
                 break;
             }
