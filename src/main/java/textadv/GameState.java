@@ -1,26 +1,29 @@
 package textadv;
 
 // Import required Java libraries
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class GameState {
     // Initialisations for key program operation
-    public final int gridSize;
+    public int gridSize;
     public int playerX, playerY;
     public int treasureX, treasureY;
     private final ArrayList<Monster> monsters = new ArrayList<>();
     private final Random random = new Random();
-    private final Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
     private boolean testMode = false;
     public boolean gameWon = false;
 
     // GameState Constructor
-    public GameState(int gridSize, boolean testMode) {
+    public GameState(int gridSize, boolean testMode, InputStream inputStream) {
         this.gridSize = gridSize;
-        if (gridSize < 5) gridSize = 5;
         this.testMode = testMode;
+        if (!testMode) this.scanner = new Scanner(System.in);
+        else this.scanner = new Scanner(inputStream);
+        if (gridSize < 5) this.gridSize = 5;
         initializeGame();
     }
 
@@ -74,9 +77,6 @@ public class GameState {
             // Display game information to player
             printDistanceToTreasure();
             System.out.println("Enter move (up, down, left, right): ");
-            if (!scanner.hasNextLine()) {
-                continue; // Skip if no input
-            }
             String move = scanner.nextLine().toLowerCase();
             // "Move" the player based on their input (can also accept traditional text adventure n/s/e/w)
             switch (move) {

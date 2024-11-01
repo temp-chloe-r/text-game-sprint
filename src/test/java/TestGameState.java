@@ -17,22 +17,21 @@ public class TestGameState {
 
     @Test
     public void testGridSize(){
-        GameState gs = new GameState(5, false);
+        GameState gs = new GameState(5, false, null);
         assertEquals(gs.gridSize, 5);
     }
 
     @Test
     public void testWinMessage() throws InterruptedException {
-        GameState gs = new GameState(5, true);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream("d\nr\n".getBytes());
+        GameState gs = new GameState(5, true, inputStream);
         gs.playerX = 0;
         gs.playerY = 0;
         gs.treasureX = 1;
         gs.treasureY = 1;
+
         gs.play();
-
-        System.setIn(new ByteArrayInputStream("d\nl\n".getBytes()));
-
-        assertEquals(gs.gameWon, true);
+        assertTrue(gs.gameWon);
     }
 
 }
