@@ -5,18 +5,26 @@ import java.util.Random;
 public class Monster {
     private final String name;
     private final String greeting;
-    private final int x, y;
+    private int x, y;
+    private final int gridSize;
+    private Random random = new Random();
 
-    public Monster(String name, String greeting, int gridSize, int playerx, int playery) {
-        Random random = new Random();
+    // Monster constructor
+    public Monster(String name, String greeting, int gridSize) {
         this.name = name;
         this.greeting = greeting;
+        this.gridSize = gridSize;
         this.x = random.nextInt(gridSize);
         this.y = random.nextInt(gridSize);
-        // Ensure that monster is not initialised at the same location as the player
-
     }
 
+    // Change monster location (used when initialising monsters in GameState)
+    public void resetLocation() {
+        this.x = random.nextInt(gridSize);
+        this.y = random.nextInt(gridSize);
+    }
+
+    /* VARIOUS ACCESSORS */
     public String getName() {
         return name;
     }
