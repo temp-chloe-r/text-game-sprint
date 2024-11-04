@@ -22,6 +22,20 @@ public class TestGameState {
     }
 
     @Test
+    public void testPlayerPositionWithinGrid() {
+        GameState gs = new GameState(5, false, null);
+        assertTrue("Player X position should be within grid bounds", gs.playerX >= 0 && gs.playerX < 5);
+        assertTrue("Player Y position should be within grid bounds", gs.playerY >= 0 && gs.playerY < 5);
+    }
+
+    @Test
+    public void testTreasurePositionWithinGrid() {
+        GameState gs = new GameState(5, false, null);
+        assertTrue("Treasure position should be within grid bounds", gs.treasureX >= 0 && gs.treasureX < 5);
+        assertTrue("Treasure position should be within grid bounds", gs.treasureY >= 0 && gs.treasureY < 5);
+    }
+
+    @Test
     public void testWinMessage() throws InterruptedException {
         ByteArrayInputStream inputStream = new ByteArrayInputStream("d\nr\n".getBytes());
         GameState gs = new GameState(5, true, inputStream);
